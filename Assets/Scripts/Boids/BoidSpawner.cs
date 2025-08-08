@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Spawner : MonoBehaviour
+public class BoidSpawner : MonoBehaviour
 {
     public BoidSettings settings;
     public Boid prefab;
+    [SerializeField] private Transform parentGO;
     public float spawnRadius = 10;
     public int spawnCount = 10;
     public BoxCollider boundsCollider;
@@ -17,7 +18,8 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < spawnCount; i++)
         {
             Vector3 pos = transform.position + Random.insideUnitSphere * spawnRadius;
-            Boid boid = Instantiate(prefab, pos, Quaternion.LookRotation(Random.insideUnitSphere));
+            Boid boid = Instantiate(prefab, pos, Quaternion.LookRotation(Random.insideUnitSphere), parentGO);
+
             BoidContext context = new BoidContext();
 
             List<IFlockingBehavior> behaviors = new()

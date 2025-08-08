@@ -5,7 +5,7 @@ public class Boid : MonoBehaviour
 {
     private BoidSettings settings;
     private BoidMovement movement;
-    private BoidContext context;
+    internal BoidContext Context { get; set; }
     private Transform cachedTransform;
 
     private List<IFlockingBehavior> behaviors;
@@ -13,7 +13,12 @@ public class Boid : MonoBehaviour
     public void Initialize(BoidSettings settings, BoidContext context, List<IFlockingBehavior> behaviors)
     {
         this.settings = settings;
-        this.context = context;
+
+        Context = context;
+        Context.RuntimeAlignWeight = settings.alignWeight;
+        Context.RuntimeCohesionWeight = settings.cohesionWeight;
+        Context.RuntimeSeperateWeight = settings.seperateWeight;
+
         this.behaviors = behaviors;
         cachedTransform = transform;
         movement = new BoidMovement(settings, cachedTransform.forward);
@@ -21,10 +26,10 @@ public class Boid : MonoBehaviour
 
     public void UpdatePerception(Vector3 avgFlockHeading, Vector3 centreOfFlockmates, Vector3 avgAvoidanceHeading, int numFlockmates)
     {
-        context.AvgFlockHeading = avgFlockHeading;
-        context.CentreOfFlockmates = centreOfFlockmates;
-        context.AvgAvoidanceHeading = avgAvoidanceHeading;
-        context.NumFlockmates = numFlockmates;
+        Context.AvgFlockHeading = avgFlockHeading;
+        Context.CentreOfFlockmates = centreOfFlockmates;
+        Context.AvgAvoidanceHeading = avgAvoidanceHeading;
+        Context.NumFlockmates = numFlockmates;
     }
 
     public void Tick()
@@ -32,15 +37,15 @@ public class Boid : MonoBehaviour
         Vector3 position = cachedTransform.position;
         Vector3 forward = cachedTransform.forward;
 
-        context.Position = position;
-        context.Forward = forward;
-        context.Velocity = movement.CurrentVelocity;
-        context.Settings = settings;
+        Context.Position = position;
+        Context.Forward = forward;
+        Context.Velocity = movement.CurrentVelocity;
+        Context.Settings = settings;
 
         Vector3 acceleration = Vector3.zero;
         foreach (var behavior in behaviors)
         {
-            acceleration += behavior.ComputeAcceleration(context);
+            acceleration += behavior.ComputeAcceleration(Context);
         }
 
         Vector3 velocity = movement.UpdateVelocity(acceleration, Time.deltaTime);

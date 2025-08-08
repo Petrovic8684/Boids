@@ -9,7 +9,7 @@ public class BoidManager : MonoBehaviour
     public ComputeShader compute;
 
     private List<Boid> boidsList = new();
-    private Boid[] boids;
+    internal Boid[] Boids { get; set; }
 
     public void RegisterBoid(Boid boid)
     {
@@ -18,20 +18,20 @@ public class BoidManager : MonoBehaviour
 
     void Start()
     {
-        boids = boidsList.ToArray();
+        Boids = boidsList.ToArray();
     }
 
     void Update()
     {
-        if (boids == null || boids.Length == 0) return;
+        if (Boids == null || Boids.Length == 0) return;
 
-        int numBoids = boids.Length;
+        int numBoids = Boids.Length;
         var boidData = new BoidData[numBoids];
 
         for (int i = 0; i < numBoids; i++)
         {
-            boidData[i].position = boids[i].transform.position;
-            boidData[i].direction = boids[i].transform.forward;
+            boidData[i].position = Boids[i].transform.position;
+            boidData[i].direction = Boids[i].transform.forward;
         }
 
         var boidBuffer = new ComputeBuffer(numBoids, BoidData.Size);
@@ -49,14 +49,14 @@ public class BoidManager : MonoBehaviour
 
         for (int i = 0; i < numBoids; i++)
         {
-            boids[i].UpdatePerception(
+            Boids[i].UpdatePerception(
                 boidData[i].flockHeading,
                 boidData[i].flockCentre,
                 boidData[i].avoidanceHeading,
                 boidData[i].numFlockmates
             );
 
-            boids[i].Tick();
+            Boids[i].Tick();
         }
 
         boidBuffer.Release();

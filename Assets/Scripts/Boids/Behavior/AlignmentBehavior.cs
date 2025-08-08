@@ -11,6 +11,6 @@ public class AlignmentBehavior : IFlockingBehavior
     private Vector3 SteerTowards(Vector3 vector, BoidContext context)
     {
         Vector3 v = vector.normalized * context.Settings.maxSpeed - context.Velocity;
-        return Vector3.ClampMagnitude(v, context.Settings.maxSteerForce) * context.Settings.alignWeight;
+        return Vector3.ClampMagnitude(v, context.Settings.maxSteerForce) * context.RuntimeAlignWeight;
     }
 }

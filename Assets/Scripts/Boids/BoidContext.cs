@@ -11,4 +11,8 @@ public class BoidContext
     public Vector3 CentreOfFlockmates;
     public Vector3 AvgAvoidanceHeading;
     public int NumFlockmates;
+
+    public float RuntimeAlignWeight;
+    public float RuntimeCohesionWeight;
+    public float RuntimeSeperateWeight;
 }
