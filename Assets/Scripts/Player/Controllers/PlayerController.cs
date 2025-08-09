@@ -5,7 +5,7 @@ public class PlayerController : MonoBehaviour
     private IInput input;
     private IBoostInput boostInput;
     private IMovable movable;
-    private IRotatable rotatable;
+    private IOrientationRotatable rotatable;
     private IBoostable boostable;
 
     private void Awake()
@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
         input = GetComponent<IInput>();
         boostInput = GetComponent<IBoostInput>();
         movable = GetComponent<IMovable>();
-        rotatable = GetComponent<IRotatable>();
+        rotatable = GetComponent<IOrientationRotatable>();
         boostable = GetComponent<IBoostable>();
     }
 
@@ -21,6 +21,6 @@ public class PlayerController : MonoBehaviour
     {
         movable.Move(transform.forward);
         rotatable.Rotate(input.Pitch, input.Yaw, input.Roll);
-        if (boostInput != null) boostable.Boost(boostInput.IsBoosting);
+        boostable.Boost(boostInput.IsBoosting);
     }
 }

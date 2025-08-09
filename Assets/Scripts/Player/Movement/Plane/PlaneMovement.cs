@@ -1,31 +1,20 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlaneMovement : MonoBehaviour, IMovable, IRotatable, IBoostable
+public class PlaneMovement : MonoBehaviour, IMovable, IOrientationRotatable, IBoostable
 {
     [SerializeField] private float speed = 20f;
     [SerializeField] private float rotationSpeed = 50f;
     [SerializeField] private float rollStabilizeSpeed = 2f;
     [SerializeField] private float boostMultiplier = 1.8f;
-    [SerializeField] private ParticleSystem boostEffect;
 
+    private IBoostParticleEffectHandler boostEffectHandler;
     private Rigidbody rb;
-
-    void OnEnable()
-    {
-        PlayerCrashHandler.OnCrashed += DisableBoostEffect;
-    }
-
-    void OnDisable()
-    {
-        PlayerCrashHandler.OnCrashed -= DisableBoostEffect;
-    }
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        boostEffect.gameObject.SetActive(true);
-        boostEffect.Stop();
+        boostEffectHandler = GetComponent<IBoostParticleEffectHandler>();
     }
 
     public void Move(Vector3 direction)
@@ -57,13 +46,8 @@ public class PlaneMovement : MonoBehaviour, IMovable, IRotatable, IBoostable
     {
         rb.velocity *= isBoosting ? boostMultiplier : 1;
 
-        if (boostEffect == null)
-            return;
-
-        if (isBoosting && !boostEffect.isPlaying)
-            boostEffect.Play();
-        else if (!isBoosting && boostEffect.isPlaying)
-            boostEffect.Stop();
+        if (boostEffectHandler == null) return;
+        boostEffectHandler.ToggleEffect(isBoosting);
     }
 
     private float NormalizeAngle(float angle)
@@ -71,11 +55,5 @@ public class PlaneMovement : MonoBehaviour, IMovable, IRotatable, IBoostable
         if (angle > 180f)
             angle -= 360f;
         return angle;
-    }
-
-    private void DisableBoostEffect()
-    {
-        boostEffect.Stop();
-        boostEffect.gameObject.SetActive(false);
     }
 }

@@ -1,49 +1,24 @@
 using UnityEngine;
 
-public class CameraFovController : MonoBehaviour
+public class CameraFovHandler : MonoBehaviour
 {
     [SerializeField] private Transform target;
     [SerializeField] private float normalFov = 60f;
-    [SerializeField] private float boostFov = 75f;
+    [SerializeField] private float zoomInFov = 75f;
     [SerializeField] private float fovTransitionSpeed = 5f;
 
-    private Camera cam;
+    private new Camera camera;
     private IBoostInput boostInput;
 
     private void Awake()
     {
-        enabled = true;
-        cam = Camera.main;
-    }
-
-    void OnEnable()
-    {
-        PlayerCrashHandler.OnCrashed += Disable;
-    }
-
-    void OnDisable()
-    {
-        PlayerCrashHandler.OnCrashed -= Disable;
-    }
-
-    private void Start()
-    {
-        if (target == null)
-            return;
-
+        camera = GetComponent<Camera>();
         boostInput = target.GetComponentInParent<IBoostInput>();
     }
 
     private void Update()
     {
-        if (cam == null || target == null || boostInput == null) return;
-
-        float desiredFov = (boostInput != null && boostInput.IsBoosting) ? boostFov : normalFov;
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, desiredFov, fovTransitionSpeed * Time.deltaTime);
-    }
-
-    private void Disable()
-    {
-        enabled = false;
+        float desiredFov = (boostInput != null && boostInput.IsBoosting) ? zoomInFov : normalFov;
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, desiredFov, fovTransitionSpeed * Time.deltaTime);
     }
 }

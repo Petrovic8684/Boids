@@ -7,25 +7,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float followSpeed = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
-    void Awake()
-    {
-        enabled = true;
-    }
-
-    void OnEnable()
-    {
-        PlayerCrashHandler.OnCrashed += Disable;
-    }
-
-    void OnDisable()
-    {
-        PlayerCrashHandler.OnCrashed -= Disable;
-    }
-
     private void LateUpdate()
     {
-        if (target == null) return;
-
         Vector3 targetEuler = target.eulerAngles;
         Quaternion yawRotation = Quaternion.Euler(0, targetEuler.y, 0);
 
@@ -38,10 +21,5 @@ public class CameraFollow : MonoBehaviour
             Quaternion desiredRotation = Quaternion.LookRotation(lookDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
         }
-    }
-
-    private void Disable()
-    {
-        enabled = false;
     }
 }
