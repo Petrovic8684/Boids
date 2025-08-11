@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SeparationBehavior : IFlockingBehavior
+public class SeparationBehavior : MonoBehaviour, IFlockingBehavior
 {
     public Vector3 ComputeAcceleration(BoidContext context)
     {

@@ -1,13 +1,8 @@
 using UnityEngine;
 
-public class TargetSeekingBehavior : IFlockingBehavior
+public class TargetSeekingBehavior : MonoBehaviour, IFlockingBehavior
 {
-    private readonly Transform target;
-
-    public TargetSeekingBehavior(Transform target)
-    {
-        this.target = target;
-    }
+    [SerializeField] private Transform target;
 
     public Vector3 ComputeAcceleration(BoidContext context)
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class IslandSpawner : MonoBehaviour
 {
     [SerializeField] private List<GameObject> islandPrefabs;
-    [SerializeField] private Transform parentGO;
+    [SerializeField] private Transform parent;
     [SerializeField] private int islandCount = 10;
     [SerializeField] private float spawnRadius = 50f;
 
@@ -23,7 +23,7 @@ public class IslandSpawner : MonoBehaviour
             Vector3 randomPos = transform.position + Random.insideUnitSphere * spawnRadius;
 
             GameObject prefab = islandPrefabs[Random.Range(0, islandPrefabs.Count)];
-            Instantiate(prefab, randomPos, prefab.transform.rotation, parentGO);
+            Instantiate(prefab, randomPos, prefab.transform.rotation, parent);
         }
     }
 }

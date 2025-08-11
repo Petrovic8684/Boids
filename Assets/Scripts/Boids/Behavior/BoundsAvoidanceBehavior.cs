@@ -1,13 +1,8 @@
 using UnityEngine;
 
-public class BoundsAvoidanceBehavior : IFlockingBehavior
+public class BoundsAvoidanceBehavior : MonoBehaviour, IFlockingBehavior
 {
-    private BoxCollider boundsCollider;
-
-    public BoundsAvoidanceBehavior(BoxCollider boundsCollider)
-    {
-        this.boundsCollider = boundsCollider;
-    }
+    [SerializeField] private BoxCollider boundsCollider;
 
     public Vector3 ComputeAcceleration(BoidContext context)
     {

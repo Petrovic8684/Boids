@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CohesionBehavior : IFlockingBehavior
+public class CohesionBehavior : MonoBehaviour, IFlockingBehavior
 {
     public Vector3 ComputeAcceleration(BoidContext context)
     {

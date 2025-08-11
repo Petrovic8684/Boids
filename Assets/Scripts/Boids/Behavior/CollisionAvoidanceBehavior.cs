@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CollisionAvoidanceBehavior : IFlockingBehavior
+public class CollisionAvoidanceBehavior : MonoBehaviour, IFlockingBehavior
 {
     public Vector3 ComputeAcceleration(BoidContext context)
     {
@@ -18,13 +18,11 @@ public class CollisionAvoidanceBehavior : IFlockingBehavior
 
     private Vector3 FindCollisionFreeDirection(BoidContext context)
     {
-        foreach (var dir in BoidHelper.directions)
+        foreach (var dir in BoidDirectionProvider.directions)
         {
             Vector3 worldDir = Quaternion.LookRotation(context.Forward) * dir;
             if (!Physics.SphereCast(context.Position, context.Settings.boundsRadius, worldDir, out _, context.Settings.collisionAvoidDst, context.Settings.obstacleMask))
-            {
                 return worldDir;
-            }
         }
 
         return context.Forward;

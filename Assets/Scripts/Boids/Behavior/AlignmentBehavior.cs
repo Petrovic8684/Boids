@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AlignmentBehavior : IFlockingBehavior
+public class AlignmentBehavior : MonoBehaviour, IFlockingBehavior
 {
     public Vector3 ComputeAcceleration(BoidContext context)
     {
