@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(BoidManager))]
-public class BoidWeightController : MonoBehaviour
+public class BoidWeightController : MonoBehaviour, IBoidWeightController
 {
     private BoidManager boidManager;
 

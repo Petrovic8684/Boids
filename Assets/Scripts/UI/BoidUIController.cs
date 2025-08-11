@@ -2,7 +2,14 @@ using UnityEngine;
 
 public class BoidUIController : MonoBehaviour
 {
-    public BoidWeightController weightController;
+    [SerializeField] private MonoBehaviour weightControllerBehaviour;
+
+    private IBoidWeightController weightController;
+
+    private void Awake()
+    {
+        weightController = weightControllerBehaviour as IBoidWeightController;
+    }
 
     public void OnAlignCheckboxChanged(bool isChecked)
     {

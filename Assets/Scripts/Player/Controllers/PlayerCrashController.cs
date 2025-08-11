@@ -9,11 +9,13 @@ public class PlayerCrashController : MonoBehaviour
 
     private ICrashParticleEffectHandler crashEffectHandler;
     private ICrashAudioEffectHandler crashAudioHandler;
+    private IEntityToggler entityToggler;
 
     void Awake()
     {
         crashEffectHandler = GetComponent<ICrashParticleEffectHandler>();
         crashAudioHandler = GetComponent<ICrashAudioEffectHandler>();
+        entityToggler = GetComponent<IEntityToggler>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,6 +30,7 @@ public class PlayerCrashController : MonoBehaviour
     {
         OnPlayerCrashed?.Invoke();
 
+        entityToggler.DisableAll();
         crashEffectHandler.PlayEffect();
         crashAudioHandler.PlayEffect();
     }
