@@ -1,7 +1,7 @@
 ## Unity ##
 *.cs diff=csharp text
-*.cginc text
-*.shader text
+*.cginc text linguist-vendored
+*.shader text linguist-vendored
 
 *.mat merge=unityyamlmerge eol=lf
 *.anim merge=unityyamlmerge eol=lf
